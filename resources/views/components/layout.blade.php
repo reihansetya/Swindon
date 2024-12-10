@@ -1,3 +1,4 @@
+@props(['container' => false, 'class' => null])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
 
 <body>
     <x-navbar />
-    <div class="container md:mx-auto px-6 {{ $class ?? '' }}">
+    <div class="container md:mx-auto {{ $class ?? '' }}">
         {{ $slot }}
     </div>
     <x-footer />

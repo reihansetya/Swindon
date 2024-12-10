@@ -43,7 +43,7 @@
     <div class="navbar py-5 justify-center bg-base-100">
         <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
         <x-nav-link href="/footage" :active="request()->is('footage')">Footage</x-nav-link>
-
+        <x-nav-link href="/biography" :active="request()->is('biography')">Biography</x-nav-link>
         {{-- <x-nav-link href="/blog" :active="request()->is('blog')">Blog</x-nav-link>
         <x-nav-link href="/albums" :active="request()->is('albums')">Album</x-nav-link>
         <x-nav-link href="/tracks" :active="request()->is('tracks')">Tracks</x-nav-link>
