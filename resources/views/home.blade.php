@@ -1,7 +1,7 @@
 <?php
 $data = [
     [
-        'img' => 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
+        'img' => 'images/footage-3.jpg',
         'title' => 'Biography',
     ],
     [
@@ -9,24 +9,29 @@ $data = [
         'title' => 'Albums',
     ],
     [
-        'img' => 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
+        'img' => 'images/footage-1.jpg',
         'title' => 'Singles',
     ],
     [
-        'img' => 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
+        'img' => 'images/footage-2.jpg',
+        'title' => 'Footage',
+        'href' => '/footage',
+    ],
+    [
+        'img' => 'images/footage-3.jpg',
         'title' => 'Footage',
         'href' => '/footage',
     ],
 ];
 ?>
-<x-layout class="px-6">
+<x-layout class="md:px-12 px-6">
     <x-slot:title>
         Home
     </x-slot:title>
 
-    <div class="grid md:grid-cols-3 gap-4 justify-items-center py-5">
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4 justify-items-center py-5">
         @foreach ($data as $d)
-            <a href="{{ $d['href'] ?? '#' }}" class="card bg-base-100 image-full w-96 shadow-xl rounded-md group">
+            <a href="{{ $d['href'] ?? '#' }}" class="card bg-base-100 image-full w-full h-96 shadow-xl rounded-md group">
                 <figure>
                     <img src="{{ $d['img'] }}" alt="Shoes"
                         class="w-full h-auto relative z-0 rounded-lg transition-all duration-300 group-hover:scale-110" />

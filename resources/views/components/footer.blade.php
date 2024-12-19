@@ -1,49 +1,58 @@
 {{-- Footer jumbotron --}}
-<section class="bg-center bg-no-repeat bg-gray-700 bg-blend-multiply mt-5"
+<section class="bg-center bg-no-repeat bg-base-100 bg-blend-multiply mt-5 bg-cover"
     style="background-image: url({{ asset('footer-img.png') }})">
-    <div class="px-4 md:py-20 py-10 mx-auto max-w-screen-xl text-center ">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-2xl lg:text-3xl">
+    <div class="container px-4 md:py-20 py-10 mx-auto max-w-screen-xl text-center">
+        <h1 class="mb-4 text-xl font-extrabold tracking-tight leading-none text-white md:text-3xl">
             ALL AROUND THE WORLD YOU'VE GOTTA SPREAD THE WORD
         </h1>
-        <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">oasismynet is the new
+        <p class="mb-8 text-lg font-normal text-gray-300 text-sm md:text-xl ">oasismynet is the new
             home for Oasis fans across the world to get access to exclusive content, giveaways and updates
             tailored to you. Sign up today and let the journey begin!
         </p>
     </div>
 </section>
 {{-- end footer jumbotron --}}
-<footer class="container md:mx-auto pt-5">
+<footer class="bg-black md:mx-auto pt-10">
 
     {{-- sosmed --}}
     <div class="flex justify-center">
-        <div class="mr-5 text-xl">
-            <h1>Find me At: </h1>
-        </div>
         <div class="flex gap-5">
-            <span class="hover:opacity-65">
-                <a href="#" class="fa-brands fa-youtube"></a>
-            </span>
-            <span class="hover:opacity-65">
-                <a href="#" class="fa-brands fa-spotify"></a>
-            </span>
-            <span class="hover:opacity-65">
-                <a href="#" class="fa-brands fa-twitter"></a>
-            </span>
-            <span class="hover:opacity-65">
-                <a href="#" class="fa-brands fa-instagram"></a>
-            </span>
-            <span class="hover:opacity-65">
-                <a href="#" class="fa-brands fa-facebook-f"></a>
-            </span>
+            <div class="bg-[#6A6A6A] px-2 py-1 rounded-full">
+                <span class="hover:opacity-65">
+                    <a href="http://Youtube.com/@swindontube" target="_blank" class="fa-brands fa-youtube"></a>
+                </span>
+            </div>
+            <div class="bg-[#6A6A6A] px-2 py-1 rounded-full">
+                <span class="hover:opacity-65">
+                    <a href="https://open.spotify.com/artist/2G94k41THYXoXLI7IL3fvE?si=oNb8c3-5T6SJ0YlrHpAULw"
+                        target="_blank" class="fa-brands fa-spotify"></a>
+                </span>
+            </div>
+            <div class="bg-[#6A6A6A] px-2 py-1 rounded-full">
+                <span class="hover:opacity-65">
+                    <a href="http://X.com/swindonhq" target="_blank" class="fa-brands fa-twitter"></a>
+                </span>
+            </div>
+            <div class="bg-[#6A6A6A] px-2 py-1 rounded-full">
+                <span class="hover:opacity-65">
+                    <a href="http://Instagram.com/swindongram" target="_blank" class="fa-brands fa-instagram"></a>
+                </span>
+            </div>
+            <div class="bg-[#6A6A6A] px-2 py-1 rounded-full">
+                <span class="hover:opacity-65">
+                    <a href="http://Tiktok.com/@swindonmusic" target="_blank" class="fa-brands fa-tiktok"></a>
+                </span>
+            </div>
         </div>
     </div>
     {{-- end sosmed --}}
 
     {{-- footbar --}}
-    <div class="navbar py-5 justify-center bg-base-100">
+    <div class="footer flex rounded-full w-fit mx-auto bg-base-100 p-2 mt-10 justify-center">
         <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-        <x-nav-link href="/footage" :active="request()->is('footage')">Footage</x-nav-link>
         <x-nav-link href="/biography" :active="request()->is('biography')">Biography</x-nav-link>
+        <x-nav-link href="/discography" :active="request()->is('discography')">Discography</x-nav-link>
+        <x-nav-link href="/footage" :active="request()->is('footage')">Footage</x-nav-link>
         {{-- <x-nav-link href="/blog" :active="request()->is('blog')">Blog</x-nav-link>
         <x-nav-link href="/albums" :active="request()->is('albums')">Album</x-nav-link>
         <x-nav-link href="/tracks" :active="request()->is('tracks')">Tracks</x-nav-link>

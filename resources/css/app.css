@@ -1,3 +1,18 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn-active {
+        @apply bg-white text-black border-black; /* Kondisi aktif */
+    }
+
+    .btn:hover {
+        @apply bg-white text-black opacity-100; /* Hover tetap putih */
+    }
+    .btn:active {
+        @apply bg-white text-black; /* Aktif tetap putih */
+    }
+}
