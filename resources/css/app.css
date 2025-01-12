@@ -5,6 +5,12 @@
 @tailwind utilities;
 
 @layer components {
+    /* tag header */
+    h1 {
+        @apply text-3xl font-bold;
+    }
+    /* end tag header */
+
     .btn-active {
         @apply bg-white text-black border-black; /* Kondisi aktif */
     }
@@ -15,4 +21,10 @@
     .btn:active {
         @apply bg-white text-black; /* Aktif tetap putih */
     }
+    .text-footer {
+        text-shadow: 0px 2px black;
+    }
+    /* .text-arial {
+        font-family: Arial, sans-serif;
+} */
 }

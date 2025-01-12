@@ -39,8 +39,10 @@ class SinglesController extends Controller
     {
         //
         $single = Singles::where('slug', $slug)->firstOrFail();
+        $release = date('Y', strtotime($single->release_date));
+        dump($single);
 
-        return view('discography.single', compact('single'));
+        return view('discography.single', compact('single', 'release'));
     }
 
     /**

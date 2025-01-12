@@ -23,7 +23,7 @@
     </div> --}}
 
     <section class="hero min-h-screen grayscale  bg-center bg-no-repeat bg-blend-multiply -mt-12 bg-cover"
-        style="background-image: url({{ asset('images/story.jpg') }})">
+        style="background-image: url({{ asset('header-bio.jpg') }})">
         <div class="absolute inset-0 bg-[linear-gradient(218deg,_rgba(18,17,17,0.5)_0%,_rgba(79,76,76,0.5)_100%)]">
         </div>
         <div class="hero-content text-neutral-content text-center">
@@ -34,8 +34,10 @@
         </div>
     </section>
 
-    <div class="py-20">
-        <h1>Biography</h1>
+    <div class="py-20 w-[720px] mx-auto text-justify">
+        <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo minima labore dolores minus. Nam, molestias
+            iusto commodi quam delectus illo necessitatibus. Nisi cumque odio omnis, neque maxime corporis nulla
+            impedit?</h1>
     </div>
 
     <div class="diff md:aspect-[21/9] aspect-[3/3]">

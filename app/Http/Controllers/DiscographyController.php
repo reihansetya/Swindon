@@ -21,7 +21,7 @@ class DiscographyController extends Controller
         } else {
             $albums = Albums::all();
             $singles = Singles::all();
-            $items = $albums->merge($singles)->sortByDesc('release_date');
+            $items = $singles->merge($albums)->sortByDesc('category_id');
         }
 
         return view('discography.index', compact('items', 'type'));

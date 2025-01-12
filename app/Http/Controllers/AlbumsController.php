@@ -39,7 +39,10 @@ class AlbumsController extends Controller
     {
         //
         $album = Albums::where('slug', $slug)->firstOrFail();
-        return view('discography.album', compact('album'));
+        $release = date('Y', strtotime($album->release_date));
+        $albumWithSingle = $album->with('singles')->first();
+
+        return view('discography.album', compact('album', 'release', 'albumWithSingle'));
     }
 
     /**

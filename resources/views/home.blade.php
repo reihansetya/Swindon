@@ -3,22 +3,15 @@ $data = [
     [
         'img' => 'images/footage-3.jpg',
         'title' => 'Biography',
+        'href' => '/biography',
     ],
     [
-        'img' => 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
-        'title' => 'Albums',
-    ],
-    [
-        'img' => 'images/footage-1.jpg',
-        'title' => 'Singles',
+        'img' => 'discography.jpg',
+        'title' => 'Discography',
+        'href' => '/discography',
     ],
     [
         'img' => 'images/footage-2.jpg',
-        'title' => 'Footage',
-        'href' => '/footage',
-    ],
-    [
-        'img' => 'images/footage-3.jpg',
         'title' => 'Footage',
         'href' => '/footage',
     ],
@@ -31,7 +24,7 @@ $data = [
 
     <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4 justify-items-center py-5">
         @foreach ($data as $d)
-            <a href="{{ $d['href'] ?? '#' }}" class="card bg-base-100 image-full w-full h-96 shadow-xl rounded-md group">
+            <a href="{{ $d['href'] ?? '#' }}" class="card image-full w-full h-96 shadow-xl rounded-md group hover:bg-white">
                 <figure>
                     <img src="{{ $d['img'] }}" alt="Shoes"
                         class="w-full h-auto relative z-0 rounded-lg transition-all duration-300 group-hover:scale-110" />

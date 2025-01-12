@@ -1,14 +1,11 @@
 @props(['home' => request()->is('/')])
 @props(['biography' => request()->is('biography')])
-<section class="text-center relative z-10">
+<section class="text-center  relative z-10">
     <div class="{{ $home ? 'hidden' : 'block' }} py-3">
         {{-- <h1 class="text-3xl font-bold text-[#FFC700]">oasismynet</h1> --}}
         <x-nav-link href="/" :navbar="true" :active="request()->is('/')">Home</x-nav-link>
-        <span class="cursor-default -mx-2">/</span>
         <x-nav-link href="/biography" :navbar="true" :active="request()->is('biography')">Biography</x-nav-link>
-        <span class="cursor-default -mx-2">/</span>
         <x-nav-link href="/discography" :navbar="true" :active="request()->is('discography')">Discography</x-nav-link>
-        <span class="cursor-default -mx-2">/</span>
         <x-nav-link href="/footage" :navbar="true" :active="request()->is('footage')">Footage</x-nav-link>
     </div>
     <a href="#" class="md:w-[50%] w-[80%] inline-block {{ $biography ? 'hidden' : 'block' }}">

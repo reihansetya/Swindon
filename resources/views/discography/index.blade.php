@@ -30,7 +30,7 @@ $data = [
     </x-slot:title>
     <section id="discography" class="md:px-6 px-8">
         <div class="">
-            <div class="filters flex space-x-4 mb-6">
+            <div class="filters flex justify-center space-x-4 mb-6">
                 <a href="{{ route('discography.index', ['type' => 'all']) }}"
                     class="btn border-2 border-white {{ $type === 'all' ? 'btn-active' : '' }}">ALL</a>
                 <a href="{{ route('discography.index', ['type' => 'albums']) }}"
