@@ -1,5 +1,6 @@
+@props(['admin' => request()->is('admin') || request()->is('admin/*')])
 {{-- Footer jumbotron --}}
-<section class="bg-center bg-no-repeat bg-base-100   mt-[5rem] bg-cover"
+<section class="bg-center bg-no-repeat bg-base-100   mt-[5rem] bg-cover {{ $admin ? 'hidden' : 'block' }}"
     style="background-image: url({{ asset('images/footer-section.jpg') }})">
 
     <div class="container px-4 md:py-20 py-10 mx-auto max-w-screen-xl text-center">
@@ -42,7 +43,7 @@
     </div>
 </section>
 {{-- end footer jumbotron --}}
-<footer class="bg-black md:mx-auto pt-10">
+<footer class="bg-black md:mx-auto pt-10 {{ $admin ? 'hidden' : 'block' }}">
 
     {{-- sosmed --}}
     {{-- <div class="flex justify-center">

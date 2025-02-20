@@ -12,10 +12,10 @@
                 <div class="self-start">
                     <p class="mb-5">Listed in: <a class="underline"
                             href="{{ route('discography.index', ['type' => 'singles']) }}">Singles</a></p>
+                    <p class="mb-3">{{ $single->description }}</p>
                     <h4 class="mb-3">Produced by: {{ $single->produced_by }}</h4>
                     <h4 class="mb-3">Recorded at: {{ $single->recorded_at }} </h4>
                     <h5 class="mb-10">Released: {{ $release }} </h5>
-                    <p>{{ $single->description }}</p>
 
                 </div>
 
@@ -25,10 +25,7 @@
                         Lyric
                     </div>
                     <div class="collapse-content peer-checked:block hidden transition-all duration-300">
-                        <p class="pt-5 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                            earum ducimus est blanditiis
-                            at repellendus tempore laborum, rerum doloribus enim iste natus aperiam iusto! Eos,
-                            veritatis fuga? Enim, laudantium molestias.</p>
+                        <p class="pt-5 text-justify">{{ $lyricsWithSingle->lyrics->lyrics_text }}</p>
                     </div>
                 </div>
 

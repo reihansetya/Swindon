@@ -1,6 +1,8 @@
 @props(['container' => false, 'class' => null])
+@props(['admin' => request()->is('admin') || request()->is('admin/*')])
+
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="{{ $admin ? 'light' : 'business' }}" lang="en">
 
 <head>
     <meta charset="UTF-8">

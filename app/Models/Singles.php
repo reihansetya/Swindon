@@ -16,7 +16,7 @@ class Singles extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['id', 'album_id', 'slug', 'title', 'release_date', 'genre', 'spotify_url', 'youtube_embed', 'description', 'produced_by', 'recorded_at', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'album_id', 'title', 'slug', 'category_id', 'release_date', 'genre', 'spotify_url', 'youtube_embed', 'description', 'produced_by', 'recorded_at', 'created_at', 'updated_at'];
 
     public function albums()
     {

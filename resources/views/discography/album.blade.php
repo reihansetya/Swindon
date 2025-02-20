@@ -13,9 +13,29 @@
                     <p class="mb-5">Listed in: <a class="underline"
                             href="{{ route('discography.index', ['type' => 'albums']) }}">Albums</a></p>
                     <div class="my-3">
-                        <h3>List Singles:</h3>
-                        @foreach ($albumWithSingle->singles as $singles)
-                            <h4>{{ $singles->title }}</h4>
+                        <h3 class="mb-3">List Singles:</h3>
+                        @foreach ($albumWithSingle as $singles)
+                            {{-- <div class="flex">
+                                <a class="" href="{{ route('single.show', $singles->slug) }}">{{ $singles->title }}</a>
+                            </div> --}}
+                            <ul class="timeline timeline-vertical">
+                                <li>
+                                    <div class="timeline-middle">
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="h-5 w-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                                clip-rule="evenodd" />
+                                        </svg> --}}
+                                        {{-- <img src="{{ asset('logo-url.png') }}" class="w-5" alt="">
+                                         --}}
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <a href="{{ route('single.show', $singles->slug) }}"
+                                        class="timeline-end timeline-box ml-3 my-2">{{ $singles->title }}</a>
+                                    <hr />
+                                </li>
+                            </ul>
                         @endforeach
                     </div>
                     <h4 class="my-3">Produced by: {{ $album->produced_by }}</h4>
@@ -25,18 +45,7 @@
 
                 </div>
 
-                <div class="collapse collapse-arrow bg-base-200 mt-5">
-                    <input type="checkbox" class="peer" />
-                    <div class="collapse-title text-xl font-medium peer-checked:bg-base-300 ">
-                        Lyric
-                    </div>
-                    <div class="collapse-content peer-checked:block hidden transition-all duration-300">
-                        <p class="pt-5 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                            earum ducimus est blanditiis
-                            at repellendus tempore laborum, rerum doloribus enim iste natus aperiam iusto! Eos,
-                            veritatis fuga? Enim, laudantium molestias.</p>
-                    </div>
-                </div>
+
 
             </div>
         </div>

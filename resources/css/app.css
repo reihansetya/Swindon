@@ -27,4 +27,50 @@
     /* .text-arial {
         font-family: Arial, sans-serif;
 } */
+    .timeline {
+        @apply text-left items-start; /* Menambahkan class Tailwind */
+    }
+
+    .timeline-end {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        margin: 0.25rem /* 4px */;
+        align-self: flex-start; /* Ubah ke awal */
+        justify-self: flex-start; /* Ubah ke awal */
+    }
+
+    .timeline-vertical .timeline-end {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        align-self: flex-start; /* Ubah ke awal */
+        justify-self: flex-start; /* Ubah ke awal */
+    }
+
+    .timeline {
+        position: relative;
+        display: flex;
+        align-items: flex-start; /* Posisikan elemen di awal */
+        justify-content: flex-start; /* Sesuaikan posisi elemen di awal */
+        text-align: start;
+    }
+
+    :where(.timeline > li) {
+        position: relative;
+        display: grid;
+        flex-shrink: 0;
+        align-items: center;
+        grid-template-rows: var(--timeline-row-start, minmax(0, 1fr)) auto var(
+                --timeline-row-end,
+                minmax(0, 1fr)
+            );
+        grid-template-columns: var(--timeline-column-start, minmax(0, 1fr)) auto;
+    }
+
+    .timeline-box {
+        border-color: white;
+    }
 }

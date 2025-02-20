@@ -9,6 +9,7 @@ use App\Models\Singles;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +36,17 @@ class DatabaseSeeder extends Seeder
 
         // Images::factory(10)->create(['type' => 'general']);
 
-        $this->call([CategorySeeder::class, AlbumsSeeder::class, SinglesSeeder::class]);
+        // $this->call([CategorySeeder::class, AlbumsSeeder::class, SinglesSeeder::class]);
+
+        // $this->user();
     }
+
+    // public function user()
+    // {
+    //     User::create([
+    //         'name' => 'Admin',
+    //         'email' => 'admin@gmail.com',
+    //         'password' => Hash::make('admin'),
+    //     ]);
+    // }
 }
