@@ -79,13 +79,7 @@ class SinglesController extends Controller
         ]);
 
         //Return response sukses
-        return response()->json(
-            [
-                'success' => true,
-                'data' => $single,
-            ],
-            201,
-        );
+        return redirect()->back()->with('success', 'Single berhasil ditambahkan!');
 
         //retrun ke halaman sebelumnya
         // return redirect()->back()->with('success', 'Album berhasil ditambahkan!');
@@ -99,7 +93,7 @@ class SinglesController extends Controller
         //
         $single = Singles::where('slug', $slug)->firstOrFail();
         $release = date('Y', strtotime($single->release_date));
-        dump($single);
+
 
         return view('discography.single', compact('single', 'release'));
     }

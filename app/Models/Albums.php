@@ -19,7 +19,7 @@ class Albums extends Model
     protected $fillable = ['id', 'slug', 'title', 'category_id', 'release_date', 'cover_url', 'spotify_url', 'description', 'produced_by', 'recorded_at', 'created_at', 'updated_at'];
 
     public function singles()
-    {
+{
         return $this->hasMany(Singles::class, 'album_id', 'id');
     }
 

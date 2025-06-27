@@ -7,8 +7,16 @@
         <div class="flex md:flex-row flex-col justify-between">
             <div class="md:w-col-5">
                 <img class="object-cover w-full" src="{{ asset('images/album1.png') }}" alt="">
+                <div class="mt-5">
+                    @if ($single->youtube_embed != null)
+                        <iframe class="w-full h-72" src="{{ $single->youtube_embed }}">
+                    @endif
+                    </iframe>
+
+                </div>
+
             </div>
-            <div class="md:w-col-6 items-end flex flex-col justify-between">
+            <div class="md:w-col-6 items-end flex flex-col">
                 <div class="self-start">
                     <p class="mb-5">Listed in: <a class="underline"
                             href="{{ route('discography.index', ['type' => 'singles']) }}">Singles</a></p>
@@ -19,13 +27,32 @@
 
                 </div>
 
-                <div class="collapse collapse-arrow bg-base-200 mt-5">
+                <div class="collapse collapse-arrow bg-base-200">
                     <input type="checkbox" class="peer" />
                     <div class="collapse-title text-xl font-medium peer-checked:bg-base-300 ">
                         Lyric
                     </div>
                     <div class="collapse-content peer-checked:block hidden transition-all duration-300">
-                        <p class="pt-5 text-justify">{{ $lyricsWithSingle->lyrics->lyrics_text }}</p>
+                        {{-- <p class="pt-5 text-justify">{{ $lyricsWithSingle->lyrics->lyrics_text }}</p> --}}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
+                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
+                        voluptatibus est quo sequi, cumque asperiores.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
+                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
+                        voluptatibus est quo sequi, cumque asperiores.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
+                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
+                        voluptatibus est quo sequi, cumque asperiores.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
+                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
+                        voluptatibus est quo sequi, cumque asperiores.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
+                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
+                        voluptatibus est quo sequi, cumque asperiores.
                     </div>
                 </div>
 

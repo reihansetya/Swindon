@@ -2,25 +2,6 @@
     <x-slot:title>
         Home
     </x-slot:title>
-    {{-- <div  class="diff aspect-[16/9]">
-        <div class="diff-item-1">
-            <img alt="daisy" src="{{ asset('images/footage-1.jpg') }}" />
-        </div>
-        <div class="diff-item-2">
-            <img alt="daisy" src="{{ asset('images/footage-2.jpg') }}" />
-        </div>
-        <div class="diff-resizer"></div>
-    </div> --}}
-
-    {{-- <div class="hero min-h-screen -mt-12" style="background-image: url({{ asset('images/story.jpg') }});">
-        <div class="hero-overlay bg-opacity-60"></div>
-        <div class="hero-content text-neutral-content text-center">
-            <div class="max-w-md">
-                <img src="{{ asset('logo-swindon.png') }}" alt="logo-swindon">
-                <h3 class="mt-10 text-2xl font-bold">The Story</h3>
-            </div>
-        </div>
-    </div> --}}
 
     <section class="hero min-h-screen grayscale  bg-center bg-no-repeat bg-blend-multiply -mt-12 bg-cover"
         style="background-image: url({{ asset('header-bio.jpg') }})">
@@ -34,13 +15,20 @@
         </div>
     </section>
 
-    <div class="py-20 w-[720px] mx-auto text-justify">
-        <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo minima labore dolores minus. Nam, molestias
-            iusto commodi quam delectus illo necessitatibus. Nisi cumque odio omnis, neque maxime corporis nulla
-            impedit?</h1>
+    <div class="hero bg-base-200 min-h-screen">
+        <div class="flex flex-col lg:flex-row-reverse justify-start">
+            <img src="{{ asset('images/footage-1.jpg') }}" alt="" class="max-w-sm rounded-lg shadow-2xl" />
+            <div class="max-w-xl">
+                <h3 class="py-6">
+                    Swindon adalah sebuah band beranggotakan lima orang yang menghadirkan suara khas britpop dengan
+                    sentuhan modern. Dipimpin oleh Riyan sebagai frontman, band ini mengusung gaya dan atmosfer musik
+                    yang terinspirasi dari Oasis, The Verve, dan Blur, namun dengan karakter yang unik dan autentik.
+                </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="diff md:aspect-[21/9] aspect-[3/3]">
+    {{-- <div class="diff md:aspect-[21/9] aspect-[3/3]">
         <div class="diff-item-1">
             <img alt="daisy" class="object-cover object-fit-cover" src="{{ asset('images/footage-3.jpg') }}" />
 
@@ -49,5 +37,5 @@
             <div class="bg-base-100 grid place-content-center md:text-9xl text-7xl font-black text-white">SWINDON</div>
         </div>
         <div class="diff-resizer"></div>
-    </div>
+    </div> --}}
 </x-layout>

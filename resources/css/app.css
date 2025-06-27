@@ -9,26 +9,34 @@
     h1 {
         @apply text-3xl font-bold;
     }
+
     /* end tag header */
 
     .btn-active {
-        @apply bg-white text-black border-black; /* Kondisi aktif */
+        @apply bg-white text-black border-black;
+        /* Kondisi aktif */
     }
 
     .btn:hover {
-        @apply bg-white text-black opacity-100; /* Hover tetap putih */
+        @apply bg-white text-black opacity-100;
+        /* Hover tetap putih */
     }
+
     .btn:active {
-        @apply bg-white text-black; /* Aktif tetap putih */
+        @apply bg-white text-black;
+        /* Aktif tetap putih */
     }
+
     .text-footer {
         text-shadow: 0px 2px black;
     }
+
     /* .text-arial {
-        font-family: Arial, sans-serif;
+font-family: Arial, sans-serif;
 } */
     .timeline {
-        @apply text-left items-start; /* Menambahkan class Tailwind */
+        @apply text-left items-start;
+        /* Menambahkan class Tailwind */
     }
 
     .timeline-end {
@@ -37,8 +45,10 @@
         grid-row-start: 3;
         grid-row-end: 4;
         margin: 0.25rem /* 4px */;
-        align-self: flex-start; /* Ubah ke awal */
-        justify-self: flex-start; /* Ubah ke awal */
+        align-self: flex-start;
+        /* Ubah ke awal */
+        justify-self: flex-start;
+        /* Ubah ke awal */
     }
 
     .timeline-vertical .timeline-end {
@@ -46,15 +56,19 @@
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 4;
-        align-self: flex-start; /* Ubah ke awal */
-        justify-self: flex-start; /* Ubah ke awal */
+        align-self: flex-start;
+        /* Ubah ke awal */
+        justify-self: flex-start;
+        /* Ubah ke awal */
     }
 
     .timeline {
         position: relative;
         display: flex;
-        align-items: flex-start; /* Posisikan elemen di awal */
-        justify-content: flex-start; /* Sesuaikan posisi elemen di awal */
+        align-items: flex-start;
+        /* Posisikan elemen di awal */
+        justify-content: flex-start;
+        /* Sesuaikan posisi elemen di awal */
         text-align: start;
     }
 

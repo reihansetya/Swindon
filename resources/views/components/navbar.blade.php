@@ -28,6 +28,7 @@
                 class="menu menu-sm dropdown-content bg-base-100 text-white rounded-box z-[1] mt-3 w-52 p-2 shadow">
                 <li><a href={{ route('admin.albums.create') }}>Create Album</a></li>
                 <li><a href="{{ route('admin.singles.create') }}">Create Single</a></li>
+                <li><a href="{{ route('admin.pictures.insert') }}">Insert Picture</a></li>
             </ul>
         </div>
         <a href="/admin/dashboard">
@@ -38,6 +39,8 @@
         <ul class="menu menu-horizontal px-1">
             <li><a href={{ route('admin.albums.create') }}>Create Album</a></li>
             <li><a href="{{ route('admin.singles.create') }}">Create Single</a></li>
+            <li><a href="{{ route('admin.pictures.insert') }}">Insert Picture</a></li>
+
         </ul>
     </div>
     <div class="navbar-end">

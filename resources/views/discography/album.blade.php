@@ -3,10 +3,18 @@
         Album
     </x-slot:title>
     <section class="mt-5">
-        <h1 class="text-3xl pb-10 font-bold">{{ $album->title }}</h1>
+        {{-- <div class="m-5">
+        </div> --}}
+        <h1 class="text-3xl pb-2 font-bold">{{ $album->title }}</h1>
         <div class="flex md:flex-row flex-col justify-between">
             <div class="md:w-col-5">
                 <img class="object-cover w-full" src="{{ asset('images/album1.png') }}" alt="">
+                <div class="mt-5">
+                    @if ($album->spotify_url != null)
+                        <a href="{{ $album->spotify_url }}" class="text-md">Spotify</a>
+                    @endif
+                </div>
+
             </div>
             <div class="md:w-col-6 items-end flex flex-col justify-between">
                 <div class="self-start">

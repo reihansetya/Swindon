@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscographyController;
+use App\Http\Controllers\PictureController;
 use App\Http\Controllers\SinglesController;
 use App\Models\Albums;
 use App\Models\Category;
+use App\Models\Images;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,7 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/footage', function () {
-    return view('footage');
+    $images = Images::all();
+    return view('footage', compact('images'));
 });
 
 Route::get('/biography', function () {
@@ -34,7 +38,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])
     ->middleware('auth');
 
 // === admin page === //
-Route::get('/admin/dashboard', [AuthController::class, 'dashboard'])
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->name('admin.dashboard')
     ->middleware('auth');
 
@@ -56,3 +60,10 @@ Route::get('/admin/singles/create', function () {
     ->middleware('auth');
 
 Route::post('/admin/singles/store', [SinglesController::class, 'store'])->name('admin.singles.store');
+
+//Picture
+Route::get('admin/pictures/create', [PictureController::class, 'index'])
+    ->name('admin.pictures.insert')
+    ->middleware('auth');
+
+Route::post('/admin/pictures/store', [PictureController::class, 'store'])->name('admin.pictures.store');
