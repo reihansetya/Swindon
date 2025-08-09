@@ -10,7 +10,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Product name
+                        Title
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Color
@@ -70,16 +70,19 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Product name
+                        No
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Color
+                        Title
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Category
+                        Album
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Price
+                        Youtube Url
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Spotify Url
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Image
@@ -93,21 +96,24 @@
                 @foreach ($singleWithImage as $single)
                     <tr
                         class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                        <th scope="row" class="px-6 py-4">
+                            {{ $loop->iteration }}
+                        </th>
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $single->title }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $single->title }}
+                            {{ $single->album_id != null ? $single->album->title : 'Empty' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $single->title }}
+                            {{ $single->youtube_embed }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $single->title }}
+                            {{ $single->spotify_url }}
                         </td>
                         <td class="px-6 py-4">
-                            <img src="{{ asset('storage/' . ($single->images->image_path ?? '')) }}" alt="Gambar"
+                            <img src="{{ asset('storage/images/' . ($single->images->image_path ?? '')) }}" alt="Gambar"
                                 class="w-32 h-32 object-cover rounded">
                         </td>
                         <td class="px-6 py-4">

@@ -4,6 +4,7 @@ use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscographyController;
+use App\Http\Controllers\FootageController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\SinglesController;
 use App\Models\Albums;
@@ -15,10 +16,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/footage', function () {
-    $images = Images::all();
-    return view('footage', compact('images'));
-});
+Route::get('/footage', [FootageController::class, 'index'])->name('footage.index');
 
 Route::get('/biography', function () {
     return view('biography');

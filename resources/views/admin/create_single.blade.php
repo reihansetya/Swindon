@@ -35,7 +35,7 @@
 
             <div class="mb-4">
                 <label for="album" class="block font-medium text-gray-700">Albums</label>
-                <select name="album" id="album" required
+                <select name="album" id="album"
                     class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
                     <option value="">-- Select Albums --</option>
                     @foreach ($albums as $album)

@@ -42,7 +42,7 @@ $data = [
 
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-auto">
-            @foreach ($items as $d)
+            {{-- @foreach ($items as $d)
                 <a href="{{ $d->category->name == 'Album' ? route('album.show', $d->slug) : route('single.show', $d->slug) }}"
                     class="card mx-auto w-fit card-compact bg-base-100 ">
                     <figure class=" md:h-auto lg:max-w-[22rem] overflow-hidden">
@@ -51,10 +51,39 @@ $data = [
                     <div class="py-5">
                         <h2 class="card-title">{{ $d['title'] }}</h2>
                         <p>{{ $d->category->name }}</p>
-                        <p>2024 </p>
+                        <p>{{ $d['release_date'] ?? '2xxx' }} </p>
                     </div>
                 </a>
-            @endforeach
+            @endforeach --}}
+
+            @forelse ($items as $d)
+                {{-- Ini adalah tampilan untuk setiap item (album atau single) --}}
+                <a href="{{ $d->category->name == 'Album' ? route('album.show', $d->slug) : route('single.show', $d->slug) }}"
+                    class="card mx-auto w-fit card-compact bg-base-100 ">
+                    <figure class=" md:h-auto lg:max-w-[22rem] overflow-hidden">
+                        {{-- Mengambil gambar secara dinamis dari item, bukan hardcode --}}
+                        <img class="border-2" src="{{ $data[2]['img'] }}" alt="Shoes" />
+
+                    </figure>
+                    <div class="py-5">
+                        <h2 class="card-title">{{ $d->title }}</h2>
+                        <p>{{ $d->category->name }}</p>
+                        <p>{{ $d['release_date'] ?? '2xxx' }} </p>
+                    </div>
+                </a>
+            @empty
+                {{-- Bagian ini hanya akan tampil jika variabel $items kosong --}}
+                @if ($type === 'albums')
+                    <div class="col-span-full text-center py-16">
+                        <h2 class="text-3xl font-bold">ALBUMS COMING SOON</h2>
+                        <p class="text-gray-400 mt-2">Stay tuned for our upcoming albums!</p>
+                    </div>
+                @else
+                    <div class="col-span-full text-center py-16">
+                        <p class="text-gray-400">No releases found.</p>
+                    </div>
+                @endif
+            @endforelse
         </div>
     </section>
 
