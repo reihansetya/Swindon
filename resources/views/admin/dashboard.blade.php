@@ -113,7 +113,7 @@
                             {{ $single->spotify_url }}
                         </td>
                         <td class="px-6 py-4">
-                            <img src="{{ asset('storage/images/' . ($single->images->image_path ?? '')) }}" alt="Gambar"
+                            <img src="{{ asset('storage/' . ($single->images->image_path ?? '')) }}" alt="Gambar"
                                 class="w-32 h-32 object-cover rounded">
                         </td>
                         <td class="px-6 py-4">
