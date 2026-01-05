@@ -1,189 +1,108 @@
-<x-layout class="md:px-6 px-8 py-5">
-    <x-slot:title>
-        Dashboard
-    </x-slot:title>
+<x-layout class="md:px-6 px-4 py-10">
+    <x-slot:title>Admin Dashboard</x-slot:title>
 
+    <div class="max-w-7xl mx-auto space-y-12">
+        <header class="border-b border-gray-700 pb-4">
+            <h1 class="text-3xl font-bold tracking-tighter uppercase">Dashboard</h1>
+            <p class="text-sm text-gray-500">Manage Content Swindon</p>
+        </header>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <h1>Albums</h1>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Title
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Color
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Category
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Price
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        image
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($albumWithImage as $album)
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $album->title }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $album->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $album->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $album->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <img src="{{ asset('storage/' . ($album->images->image_path ?? '')) }}" alt="Gambar"
-                                class="w-32 h-32 object-cover rounded">
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                @endforeach
+        <section class="space-y-4">
+            <div class="flex justify-between items-end">
+                <h2 class="text-xl font-bold uppercase tracking-widest">Albums</h2>
+                <a href="{{ route('admin.albums.create') }}" class="btn btn-sm btn-outline rounded-none">Add New Album</a>
+            </div>
 
+            <div class="overflow-x-auto border border-gray-800">
+                <table class="table w-full rounded-none">
+                    <thead class="bg-base-200 text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="rounded-none">Title</th>
+                            <th>Release Date</th>
+                            <th>Produced By</th>
+                            <th>Image</th>
+                            <th class="text-right rounded-none">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        @foreach ($albumWithImage as $album)
+                            <tr class="hover:bg-base-200/50 border-b border-gray-800 last:border-0">
+                                <td class="font-bold">{{ $album->title }}</td>
+                                <td>{{ \Carbon\Carbon::parse($album->release_date)->format('d M Y') }}</td>
+                                <td>{{ $album->produced_by ?? '-' }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . ($album->images->image_path ?? '')) }}"
+                                        class="w-16 h-16 object-cover border border-gray-700 grayscale hover:grayscale-0 transition-all">
+                                </td>
+                                <td class="text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a href="{{ route('admin.albums.edit', $album->id) }}"
+                                            class="btn btn-xs btn-primary rounded-none px-4">Edit</a>
+                                        <form action="{{ route('admin.albums.destroy', $album->id) }}" method="POST"
+                                            onsubmit="return confirm('Hapus album ini?')">
+                                            @csrf @method('DELETE')
+                                            <button
+                                                class="btn btn-xs btn-error rounded-none px-4 text-white">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
+        <section class="space-y-4">
+            <div class="flex justify-between items-end">
+                <h2 class="text-xl font-bold uppercase tracking-widest">Singles</h2>
+                <a href="{{ route('admin.singles.create') }}" class="btn btn-sm btn-outline rounded-none">Add New
+                    Single</a>
+            </div>
 
-            </tbody>
-        </table>
+            <div class="overflow-x-auto border border-gray-800">
+                <table class="table w-full rounded-none">
+                    <thead class="bg-base-200 text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="rounded-none">No</th>
+                            <th>Title</th>
+                            <th>Album</th>
+                            <th>Spotify</th>
+                            <th>Image</th>
+                            <th class="text-right rounded-none">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        @foreach ($singleWithImage as $single)
+                            <tr class="hover:bg-base-200/50 border-b border-gray-800 last:border-0">
+                                <td>{{ $loop->iteration }}</td>
+                                <td class="font-bold">{{ $single->title }}</td>
+                                <td class="italic text-gray-500">{{ $single->albums->title ?? 'No album' }}</td>
+                                <td><a href="{{ $single->spotify_url ?? '#' }}"
+                                        target={{ $single->spotify_url ? '_blank' : '_self' }}
+                                        class="link text-xs">Link</a>
+                                </td>
+                                <td>
+                                    <img src="{{ asset('storage/' . ($single->images->image_path ?? '')) }}"
+                                        class="w-16 h-16 object-cover border border-gray-700 grayscale hover:grayscale-0 transition-all">
+                                </td>
+                                <td class="text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a href="{{ route('admin.singles.edit', $single->id) }}"
+                                            class="btn btn-xs btn-primary rounded-none px-4">Edit</a>
+                                        <form action="{{ route('admin.singles.destroy', $single->id) }}" method="POST"
+                                            onsubmit="return confirm('Hapus single ini?')">
+                                            @csrf @method('DELETE')
+                                            <button
+                                                class="btn btn-xs btn-error rounded-none px-4 text-white">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
-
-
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <h1>Singles</h1>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        No
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Title
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Album
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Youtube Url
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Spotify Url
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Image
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($singleWithImage as $single)
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                        <th scope="row" class="px-6 py-4">
-                            {{ $loop->iteration }}
-                        </th>
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $single->title }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $single->album_id != null ? $single->album->title : 'Empty' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $single->youtube_embed }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $single->spotify_url }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <img src="{{ asset('storage/' . ($single->images->image_path ?? '')) }}" alt="Gambar"
-                                class="w-32 h-32 object-cover rounded">
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#"
-                                class="font-medium me-3 text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <a href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                @endforeach
-
-
-
-            </tbody>
-        </table>
-    </div>
-
-    {{-- <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <h1>Picture</h1>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Id
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Type
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Album
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Single
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($singles as $single)
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $single->title }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $single->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $single->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $single->title }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="#"
-                                class="font-medium me-3 text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <a href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                @endforeach
-
-
-
-            </tbody>
-        </table>
-    </div> --}}
-
-
 </x-layout>

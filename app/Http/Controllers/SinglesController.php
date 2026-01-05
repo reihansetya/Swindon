@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Singles;
 use App\Http\Requests\StoreSinglesRequest;
 use App\Http\Requests\UpdateSinglesRequest;
+use App\Models\Albums;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -128,24 +130,75 @@ class SinglesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Singles $singles)
+    public function edit($id)
     {
-        //
+        $single = Singles::findOrFail($id);
+        // Gunakan nama jamak agar sesuai dengan isi compact
+        $albums = Albums::all();
+        $categories = Category::all();
+
+        return view('admin.edit_single', compact('single', 'albums', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSinglesRequest $request, Singles $singles)
+    public function update(Request $request, $id)
     {
-        //
+        $single = Singles::findOrFail($id);
+
+        // 1. Validasi (release_date dibuat nullable agar sinkron dengan database)
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required',
+            'release_date' => 'nullable|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg', // Tambahkan validasi gambar
+        ]);
+
+        // 2. Update data teks
+        $single->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'album_id' => $request->album_id,
+            'category_id' => $request->category_id,
+            'release_date' => $request->release_date,
+            'genre' => $request->genre,
+            'spotify_url' => $request->spotify_url,
+            'youtube_embed' => $request->youtube_embed,
+            'description' => $request->description,
+            'produced_by' => $request->produced_by,
+            'recorded_at' => $request->recorded_at,
+        ]);
+
+        // 3. Logika Update Gambar (Jika ada file baru yang diupload)
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            // Gunakan updateOrCreate pada relasi images
+            $newImage = Images::updateOrCreate(
+                ['single_id' => $single->id],
+                [
+                    'id' => Str::uuid()->toString(),
+                    'image_path' => $imagePath,
+                    'type' => 'single',
+                    'album_id' => $request->album_id
+                ]
+            );
+
+            // Update image_id di tabel singles agar sinkron
+            $single->update(['image_id' => $newImage->id]);
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Single updated successfully');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Singles $singles)
+    public function destroy($id)
     {
-        //
+        $single = Singles::findOrFail($id);
+        $single->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Single deleted successfully');
     }
 }

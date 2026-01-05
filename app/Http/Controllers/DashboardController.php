@@ -22,7 +22,7 @@ class DashboardController extends Controller
         //     ->get();
 
         $albumWithImage = Albums::with('images')->get();
-        $singleWithImage = Singles::with('images')->get(); ;
+        $singleWithImage = Singles::with('images')->get();
 
         $albumsAndSingles = $albums->merge($singles);
 

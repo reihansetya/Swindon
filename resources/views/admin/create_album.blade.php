@@ -1,21 +1,21 @@
 <x-layout>
-    <x-slot:title>
-        Create Album
-    </x-slot:title>
+    <x-slot:title>Create Album</x-slot:title>
 
-    <div class="max-w-2xl mx-auto bg-white shadow-lg p-8 my-10 rounded-lg">
-        <h1 class="text-2xl text-center font-bold mb-4">Create New Album</h1>
+    <div class="max-w-3xl mx-auto py-10 px-6">
+        <header class="mb-8 border-b border-gray-700 pb-4">
+            <h1 class="text-3xl font-bold uppercase tracking-tighter">Create New Album</h1>
+        </header>
 
-        <!-- Flash Message untuk error atau sukses -->
+        {{-- Flash Message & Errors --}}
         @if (session('success'))
-            <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+            <div class="alert alert-success mb-6 rounded-none font-semibold">
                 {{ session('success') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">
-                <ul>
+            <div class="alert alert-error mb-6 rounded-none font-semibold">
+                <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -23,66 +23,64 @@
             </div>
         @endif
 
-        <!-- Form Input Album -->
-        <form action="{{ route('admin.albums.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.albums.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
-            <div class="mb-4">
-                <label for="title" class="block font-medium text-gray-700">Title</label>
-                <input type="text" name="title" id="title" required
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Album
+                            Title</span></label>
+                    <input type="text" name="title" value="{{ old('title') }}"
+                        class="input input-bordered rounded-none w-full" required>
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Release
+                            Date</span></label>
+                    <input type="date" name="release_date" value="{{ old('release_date') }}"
+                        class="input input-bordered rounded-none w-full">
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Spotify
+                            URL</span></label>
+                    <input type="url" name="spotify_url" value="{{ old('spotify_url') }}"
+                        class="input input-bordered rounded-none w-full">
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Cover
+                            Image</span></label>
+                    <input type="file" name="image" class="file-input file-input-bordered rounded-none w-full"
+                        required>
+                </div>
             </div>
 
-            {{-- <div class="mb-4">
-                <label for="category" class="block font-medium text-gray-700">Category</label>
-                <select name="category" id="category" required
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
-                    <option value="">-- Select Category --</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div> --}}
-
-            <div class="mb-4">
-                <label for="release_date" class="block font-medium text-gray-700">Release Date</label>
-                <input type="date" name="release_date" id="release_date"
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
+            <div class="form-control w-full">
+                <label class="label"><span class="label-text uppercase font-bold text-xs">Description</span></label>
+                <textarea name="description" rows="5" class="textarea textarea-bordered rounded-none w-full">{{ old('description') }}</textarea>
             </div>
 
-            <div class="mb-4">
-                <label for="image" class="block font-medium text-gray-700">Image</label>
-                <input type="file" name="image" class="w-full mt-1 p-2 border rounded" single accept="image/*">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Produced
+                            By</span></label>
+                    <input type="text" name="produced_by" value="{{ old('produced_by') }}"
+                        class="input input-bordered rounded-none w-full">
+                </div>
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Recorded
+                            At</span></label>
+                    <input type="text" name="recorded_at" value="{{ old('recorded_at') }}"
+                        class="input input-bordered rounded-none w-full">
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="spotify_url" class="block font-medium text-gray-700">Spotify URL</label>
-                <input type="url" name="spotify_url" id="spotify_url"
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
+            <div class="flex items-center gap-4 pt-6 border-t border-gray-800">
+                <button type="submit" class="btn btn-primary rounded-none px-12 text-white">Create Album</button>
+                <a href="{{ route('admin.dashboard') }}"
+                    class="btn btn-ghost rounded-none px-12 border border-gray-700">Cancel</a>
             </div>
-
-            <div class="mb-4">
-                <label for="description" class="block font-medium text-gray-700">Description</label>
-                <textarea name="description" id="description" rows="4"
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200"></textarea>
-            </div>
-
-            <div class="mb-4">
-                <label for="produced_by" class="block font-medium text-gray-700">Produced By</label>
-                <input type="text" name="produced_by" id="produced_by"
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
-            </div>
-
-            <div class="mb-4">
-                <label for="recorded_at" class="block font-medium text-gray-700">Recorded At</label>
-                <input type="text" name="recorded_at" id="recorded_at"
-                    class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
-            </div>
-
-            <button type="submit"
-                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:ring focus:ring-blue-200">
-                Create Album
-            </button>
         </form>
     </div>
 </x-layout>

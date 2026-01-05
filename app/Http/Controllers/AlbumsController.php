@@ -127,27 +127,54 @@ class AlbumsController extends Controller
         return view('discography.album', compact('album', 'release', 'albumWithSingle'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Albums $albums)
+    public function edit($id)
     {
-        //
+        $album = Albums::findOrFail($id);
+        return view('admin.edit_album', compact('album'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAlbumsRequest $request, Albums $albums)
+    public function update(Request $request, $id)
     {
-        //
+        $album = Albums::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required',
+            'release_date' => 'required|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg'
+        ]);
+
+        $album->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'release_date' => $request->release_date,
+            'description' => $request->description,
+            'produced_by' => $request->produced_by,
+            'recorded_at' => $request->recorded_at,
+        ]);
+
+        // Logika Update Gambar
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            // Update atau buat data baru di tabel images
+            Images::updateOrCreate(
+                ['album_id' => $album->id],
+                [
+                    'id' => Str::uuid()->toString(),
+                    'image_path' => $imagePath,
+                    'type' => 'album'
+                ]
+            );
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', 'Album updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Albums $albums)
+    public function destroy($id)
     {
-        //
+        $album = Albums::findOrFail($id);
+        $album->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Album deleted successfully');
     }
 }

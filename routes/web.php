@@ -48,6 +48,21 @@ Route::get('/admin/albums/create', function () {
 
 Route::post('/admin/albums/store', [AlbumsController::class, 'store'])->name('admin.albums.store');
 
+// Halaman Form Edit
+Route::get('/admin/albums/{id}/edit', [AlbumsController::class, 'edit'])
+    ->name('admin.albums.edit')
+    ->middleware('auth');
+
+// Proses Update
+Route::put('/admin/albums/{id}', [AlbumsController::class, 'update'])
+    ->name('admin.albums.update')
+    ->middleware('auth');
+
+// Proses Delete
+Route::delete('/admin/albums/{id}', [AlbumsController::class, 'destroy'])
+    ->name('admin.albums.destroy')
+    ->middleware('auth');
+
 // Single
 Route::get('/admin/singles/create', function () {
     $albums = Albums::all();
@@ -57,6 +72,21 @@ Route::get('/admin/singles/create', function () {
     ->middleware('auth');
 
 Route::post('/admin/singles/store', [SinglesController::class, 'store'])->name('admin.singles.store');
+
+// Halaman Form Edit
+Route::get('/admin/singles/{id}/edit', [SinglesController::class, 'edit'])
+    ->name('admin.singles.edit')
+    ->middleware('auth');
+
+// Proses Update
+Route::put('/admin/singles/{id}', [SinglesController::class, 'update'])
+    ->name('admin.singles.update')
+    ->middleware('auth');
+
+// Proses Delete
+Route::delete('/admin/singles/{id}', [SinglesController::class, 'destroy'])
+    ->name('admin.singles.destroy')
+    ->middleware('auth');
 
 //Picture
 Route::get('admin/pictures/create', [PictureController::class, 'index'])
