@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAlbumsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Images;
 
 class AlbumsController extends Controller
 {
@@ -43,17 +44,16 @@ class AlbumsController extends Controller
             // 'category' => 'required|integer|exists:categories,id',
             'release_date' => 'nullable|date',
             'spotify_url' => 'nullable|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg',
         ]);
 
         // Jika validasi gagal, return response dengan error
         if ($validator->fails()) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => $validator->errors(),
-                ],
-                422,
-            );
+            // 2. UBAH RESPONS VALIDATOR
+            // Kita redirect kembali ke halaman form dengan error-nya
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput(); // withInput() agar data yg sudah diisi tidak hilang
         }
 
         // Generate slug dari title
@@ -77,7 +77,7 @@ class AlbumsController extends Controller
             'spotify_url' => $request->spotify_url,
             'description' => $request->description,
             'produced_by' => $request->produced_by,
-            'recorded_at' => $request->recorded_at,
+            'recorded_at' => $request->recorded_at
         ]);
 
         // Return response sukses
@@ -88,6 +88,27 @@ class AlbumsController extends Controller
         //     ],
         //     201,
         // );
+
+        if ($request->hasFile('image')) {
+            // 1. Simpan file gambar ke storage/app/public/images
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
+            // Ini akan membuat gambar baru yg terhubung dgn $single->id
+            // Sesuai dengan logika one-to-one yang kita bahas sebelumnya.
+            Images::updateOrCreate(
+                ['album_id' => $album->id], // Kunci pencarian
+                [
+                    'id' => Str::uuid()->toString(),
+                    'image_path' => $imagePath,
+                    'type' => 'album', // Tipe 'single'
+                ]
+            );
+
+            $image_id = Images::where('album_id', $album->id)->first()->id;
+
+            Albums::where('id', $album->id)->update(['image_id' => $image_id]);
+        }
 
         //retrun ke halaman sebelumnya
         return redirect()->back()->with('success', 'Album berhasil ditambahkan!');

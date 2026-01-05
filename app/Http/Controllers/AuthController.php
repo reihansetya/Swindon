@@ -9,6 +9,11 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        // jika sudah login maka tampilkan dashboard
+        if (Auth::check()) {
+            return redirect('/admin/dashboard');
+        }
+
         return view('admin.login');
     }
 

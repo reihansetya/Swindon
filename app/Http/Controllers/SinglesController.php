@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSinglesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Images;
 
 class SinglesController extends Controller
 {
@@ -32,6 +33,8 @@ class SinglesController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+
         //
         // Validasi input
         $validator = Validator::make($request->all(), [
@@ -40,17 +43,16 @@ class SinglesController extends Controller
             // 'category' => 'required|integer|exists:categories,id',
             'release_date' => 'nullable|date',
             'spotify_url' => 'nullable|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg',
         ]);
 
-        // Jika validasi gagal, return response dengan error
+
         if ($validator->fails()) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => $validator->errors(),
-                ],
-                422,
-            );
+            // 2. UBAH RESPONS VALIDATOR
+            // Kita redirect kembali ke halaman form dengan error-nya
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput(); // withInput() agar data yg sudah diisi tidak hilang
         }
 
         // Generate slug dari title
@@ -64,12 +66,14 @@ class SinglesController extends Controller
             $counter++;
         }
 
+        $albumId = $request->album;
+
         // Simpan data ke dalam database
         $single = Singles::create([
             'id' => Str::uuid()->toString(), // Generate UUID
             'title' => $request->title,
             'slug' => $slug,
-            'album_id' => $request->album,
+            'album_id' => $albumId,
             'category_id' => 2,
             'release_date' => $request->release_date,
             'spotify_url' => $request->spotify_url,
@@ -77,6 +81,29 @@ class SinglesController extends Controller
             'produced_by' => $request->produced_by,
             'recorded_at' => $request->recorded_at,
         ]);
+
+        // === 3. TAMBAHKAN LOGIKA UPLOAD GAMBAR === //
+        if ($request->hasFile('image')) {
+            // 1. Simpan file gambar ke storage/app/public/images
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
+            // Ini akan membuat gambar baru yg terhubung dgn $single->id
+            // Sesuai dengan logika one-to-one yang kita bahas sebelumnya.
+            Images::updateOrCreate(
+                ['single_id' => $single->id], // Kunci pencarian
+                [
+                    'id' => Str::uuid()->toString(),
+                    'image_path' => $imagePath,
+                    'type' => 'single', // Tipe 'single'
+                    'album_id' => $albumId ? $albumId : null // Pastikan album_id null
+                ]
+            );
+
+            $image_id = Images::where('single_id', $single->id)->first()->id;
+
+            Singles::where('id', $single->id)->update(['image_id' => $image_id]);
+        }
 
         //Return response sukses
         return redirect()->back()->with('success', 'Single berhasil ditambahkan!');

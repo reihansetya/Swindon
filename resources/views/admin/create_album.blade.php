@@ -24,7 +24,7 @@
         @endif
 
         <!-- Form Input Album -->
-        <form action="{{ route('admin.albums.store') }}" method="POST">
+        <form action="{{ route('admin.albums.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -48,6 +48,11 @@
                 <label for="release_date" class="block font-medium text-gray-700">Release Date</label>
                 <input type="date" name="release_date" id="release_date"
                     class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block font-medium text-gray-700">Image</label>
+                <input type="file" name="image" class="w-full mt-1 p-2 border rounded" single accept="image/*">
             </div>
 
             <div class="mb-4">

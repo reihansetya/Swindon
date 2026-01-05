@@ -27,19 +27,17 @@
         <form action="{{ route('admin.pictures.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <label for="category" class="block font-medium text-gray-700">Category</label>
                 <select name="category" id="category" required
                     class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
                     <option value="">-- Select Category --</option>
-                    @foreach ($category as $cat)
-                        <option value="{{ $cat->name }}">{{ $cat->name }}</option> {{-- Misal: 'album' atau 'single' --}}
-                    @endforeach
+
                 </select>
-            </div>
+            </div> --}}
 
             <!-- Dropdown Album -->
-            <div class="mb-4" id="album_select" style="display: none;">
+            {{-- <div class="mb-4" id="album_select" style="display: none;">
                 <label for="album_id" class="block font-medium text-gray-700">Select Album</label>
                 <select name="album_id" id="album_id"
                     class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
@@ -48,10 +46,10 @@
                         <option value="{{ $album->id }}">{{ $album->title }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
 
             <!-- Dropdown Single -->
-            <div class="mb-4" id="single_select" style="display: none;">
+            {{-- <div class="mb-4" id="single_select" style="display: none;">
                 <label for="single_id" class="block font-medium text-gray-700">Select Single</label>
                 <select name="single_id" id="single_id"
                     class="w-full mt-1 p-2 border rounded focus:ring focus:ring-blue-200">
@@ -60,7 +58,7 @@
                         <option value="{{ $single->id }}">{{ $single->title }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
 
             <div class="mb-4">
                 <label for="image" class="block font-medium text-gray-700">Image</label>

@@ -28,8 +28,7 @@ Route::get('/single/{slug}', [DiscographyController::class, 'singleShow'])->name
 
 //auth login
 Route::get('/admin', [AuthController::class, 'showLogin'])
-    ->name('login')
-    ->middleware('guest');
+    ->name('login');
 Route::post('/admin', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/admin/logout', [AuthController::class, 'logout'])
     ->name('logout')
