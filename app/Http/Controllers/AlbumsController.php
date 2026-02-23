@@ -69,7 +69,6 @@ class AlbumsController extends Controller
 
         // Simpan data ke dalam database
         $album = Albums::create([
-            'id' => Str::uuid()->toString(), // Generate UUID
             'title' => $request->title,
             'slug' => $slug,
             'category_id' => 1,
@@ -94,20 +93,14 @@ class AlbumsController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
 
             // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
-            // Ini akan membuat gambar baru yg terhubung dgn $single->id
-            // Sesuai dengan logika one-to-one yang kita bahas sebelumnya.
+            // Ini akan membuat gambar baru yg terhubung dgn $album->id
             Images::updateOrCreate(
                 ['album_id' => $album->id], // Kunci pencarian
                 [
-                    'id' => Str::uuid()->toString(),
                     'image_path' => $imagePath,
-                    'type' => 'album', // Tipe 'single'
+                    'type' => 'album', // Tipe 'album'
                 ]
             );
-
-            $image_id = Images::where('album_id', $album->id)->first()->id;
-
-            Albums::where('id', $album->id)->update(['image_id' => $image_id]);
         }
 
         //retrun ke halaman sebelumnya
@@ -160,7 +153,6 @@ class AlbumsController extends Controller
             Images::updateOrCreate(
                 ['album_id' => $album->id],
                 [
-                    'id' => Str::uuid()->toString(),
                     'image_path' => $imagePath,
                     'type' => 'album'
                 ]

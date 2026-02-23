@@ -11,20 +11,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $albums = Albums::all();
-        $singles = Singles::all();
-        $images = Images::all();
-
-        // $albumWithImages = Albums::whereHas('images', function ($query) {
-        //     $query->whereNotNull('id');
-        // })
-        //     ->with('images')
-        //     ->get();
-
+        // Optimation: Eager loading and reduced queries
         $albumWithImage = Albums::with('images')->get();
         $singleWithImage = Singles::with('images')->get();
 
-        $albumsAndSingles = $albums->merge($singles);
+        // Merge collections if all combined data is needed
+        $albumsAndSingles = $albumWithImage->merge($singleWithImage);
+
+        // Keep 'albums' and 'singles' variables for backward compatibility in view,
+        // since $albumWithImage is literally all albums now.
+        $albums = $albumWithImage;
+        $singles = $singleWithImage;
 
         return view('admin.dashboard', compact('albums', 'singles', 'albumsAndSingles', 'albumWithImage', 'singleWithImage'));
     }

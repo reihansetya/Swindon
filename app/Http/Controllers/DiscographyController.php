@@ -16,12 +16,12 @@ class DiscographyController extends Controller
         $type = $request->query('type', 'all');
 
         if ($type === 'albums') {
-            $items = Albums::all();
+            $items = Albums::with('images')->get();
         } elseif ($type === 'singles') {
-            $items = Singles::all();
+            $items = Singles::with('images', 'category')->get();
         } else {
-            $albums = Albums::all();
-            $singles = Singles::all();
+            $albums = Albums::with('images')->get();
+            $singles = Singles::with('images', 'category')->get();
             $items = $albums->merge($singles);
         }
 

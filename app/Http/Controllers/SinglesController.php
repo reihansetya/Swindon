@@ -72,7 +72,6 @@ class SinglesController extends Controller
 
         // Simpan data ke dalam database
         $single = Singles::create([
-            'id' => Str::uuid()->toString(), // Generate UUID
             'title' => $request->title,
             'slug' => $slug,
             'album_id' => $albumId,
@@ -91,20 +90,14 @@ class SinglesController extends Controller
 
             // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
             // Ini akan membuat gambar baru yg terhubung dgn $single->id
-            // Sesuai dengan logika one-to-one yang kita bahas sebelumnya.
             Images::updateOrCreate(
                 ['single_id' => $single->id], // Kunci pencarian
                 [
-                    'id' => Str::uuid()->toString(),
                     'image_path' => $imagePath,
                     'type' => 'single', // Tipe 'single'
                     'album_id' => $albumId ? $albumId : null // Pastikan album_id null
                 ]
             );
-
-            $image_id = Images::where('single_id', $single->id)->first()->id;
-
-            Singles::where('id', $single->id)->update(['image_id' => $image_id]);
         }
 
         //Return response sukses
@@ -175,15 +168,11 @@ class SinglesController extends Controller
             $newImage = Images::updateOrCreate(
                 ['single_id' => $single->id],
                 [
-                    'id' => Str::uuid()->toString(),
                     'image_path' => $imagePath,
                     'type' => 'single',
                     'album_id' => $request->album_id
                 ]
             );
-
-            // Update image_id di tabel singles agar sinkron
-            $single->update(['image_id' => $newImage->id]);
         }
 
         return redirect()->route('admin.dashboard')->with('success', 'Single updated successfully');
