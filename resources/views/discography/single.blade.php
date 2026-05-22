@@ -27,34 +27,19 @@
 
                 </div>
 
-                <div class="collapse collapse-arrow bg-base-200">
-                    <input type="checkbox" class="peer" />
-                    <div class="collapse-title text-xl font-medium peer-checked:bg-base-300 ">
-                        Lyric
+                @if (isset($lyricsWithSingle) && $lyricsWithSingle->lyrics)
+                    <div class="collapse collapse-arrow bg-base-200">
+                        <input type="checkbox" class="peer" />
+                        <div class="collapse-title text-xl font-medium peer-checked:bg-base-300 ">
+                            Lyric
+                        </div>
+                        <div class="collapse-content peer-checked:block hidden transition-all duration-300">
+                            <p class="pt-5 text-justify leading-relaxed whitespace-pre-line">
+                                {{ $lyricsWithSingle->lyrics->lyrics_text }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="collapse-content peer-checked:block hidden transition-all duration-300">
-                        {{-- <p class="pt-5 text-justify">{{ $lyricsWithSingle->lyrics->lyrics_text }}</p> --}}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
-                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
-                        voluptatibus est quo sequi, cumque asperiores.
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
-                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
-                        voluptatibus est quo sequi, cumque asperiores.
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
-                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
-                        voluptatibus est quo sequi, cumque asperiores.
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
-                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
-                        voluptatibus est quo sequi, cumque asperiores.
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ea quibusdam blanditiis. Libero
-                        nulla tenetur consectetur, odit aspernatur quod soluta aliquid impedit velit tempore
-                        voluptatibus est quo sequi, cumque asperiores.
-                    </div>
-                </div>
+                @endif
 
             </div>
         </div>

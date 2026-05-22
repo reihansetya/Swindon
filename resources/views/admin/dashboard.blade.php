@@ -104,5 +104,53 @@
                 </table>
             </div>
         </section>
+
+        {{-- LYRICS SECTION --}}
+        <section class="space-y-4">
+            <div class="flex justify-between items-end">
+                <h2 class="text-xl font-bold uppercase tracking-widest">Lyrics</h2>
+                <a href="{{ route('admin.lyrics.create') }}" class="btn btn-sm btn-outline rounded-none">Add New
+                    Lyric</a>
+            </div>
+
+            <div class="overflow-x-auto border border-gray-800">
+                <table class="table w-full rounded-none">
+                    <thead class="bg-base-200 text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="rounded-none">No</th>
+                            <th>Lagu (Single Track)</th>
+                            <th>Pratinjau Lirik</th>
+                            <th class="text-right rounded-none">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        @forelse ($lyricsList as $lyric)
+                            <tr class="hover:bg-base-200/50 border-b border-gray-800 last:border-0">
+                                <td>{{ $loop->iteration }}</td>
+                                <td class="font-bold">{{ $lyric->single->title ?? 'Tidak diketahui' }}</td>
+                                <td class="text-gray-400 italic">{{ Str::limit($lyric->lyrics_text, 60, '...') }}</td>
+                                <td class="text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a href="{{ route('admin.lyrics.edit', $lyric->id) }}"
+                                            class="btn btn-xs btn-primary rounded-none px-4">Edit</a>
+                                        <form action="{{ route('admin.lyrics.destroy', $lyric->id) }}" method="POST"
+                                            onsubmit="return confirm('Hapus lirik ini?')">
+                                            @csrf @method('DELETE')
+                                            <button
+                                                class="btn btn-xs btn-error rounded-none px-4 text-white">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-gray-500 italic">Belum ada lirik yang
+                                    ditambahkan.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 </x-layout>

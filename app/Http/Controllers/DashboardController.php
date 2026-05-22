@@ -14,6 +14,8 @@ class DashboardController extends Controller
         // Optimation: Eager loading and reduced queries
         $albumWithImage = Albums::with('images')->get();
         $singleWithImage = Singles::with('images')->get();
+        // Fetch all lyrics with their parent single
+        $lyricsList = \App\Models\Lyrics::with('single')->get();
 
         // Merge collections if all combined data is needed
         $albumsAndSingles = $albumWithImage->merge($singleWithImage);
@@ -23,7 +25,7 @@ class DashboardController extends Controller
         $albums = $albumWithImage;
         $singles = $singleWithImage;
 
-        return view('admin.dashboard', compact('albums', 'singles', 'albumsAndSingles', 'albumWithImage', 'singleWithImage'));
+        return view('admin.dashboard', compact('albums', 'singles', 'albumsAndSingles', 'albumWithImage', 'singleWithImage', 'lyricsList'));
     }
 
     public function showAllData() {}

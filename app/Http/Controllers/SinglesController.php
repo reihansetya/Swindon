@@ -125,7 +125,7 @@ class SinglesController extends Controller
      */
     public function edit($id)
     {
-        $single = Singles::findOrFail($id);
+        $single = Singles::with('lyrics')->findOrFail($id);
         // Gunakan nama jamak agar sesuai dengan isi compact
         $albums = Albums::all();
         $categories = Category::all();

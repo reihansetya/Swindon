@@ -94,3 +94,24 @@ Route::get('admin/pictures/create', [PictureController::class, 'index'])
     ->middleware('auth');
 
 Route::post('/admin/pictures/store', [PictureController::class, 'store'])->name('admin.pictures.store');
+
+// Lyrics
+Route::get('/admin/lyrics/create', [App\Http\Controllers\LyricsController::class, 'create'])
+    ->name('admin.lyrics.create')
+    ->middleware('auth');
+
+Route::post('/admin/lyrics/store', [App\Http\Controllers\LyricsController::class, 'store'])
+    ->name('admin.lyrics.store')
+    ->middleware('auth');
+
+Route::get('/admin/lyrics/{id}/edit', [App\Http\Controllers\LyricsController::class, 'edit'])
+    ->name('admin.lyrics.edit')
+    ->middleware('auth');
+
+Route::put('/admin/lyrics/{id}', [App\Http\Controllers\LyricsController::class, 'update'])
+    ->name('admin.lyrics.update')
+    ->middleware('auth');
+
+Route::delete('/admin/lyrics/{id}', [App\Http\Controllers\LyricsController::class, 'destroy'])
+    ->name('admin.lyrics.destroy')
+    ->middleware('auth');

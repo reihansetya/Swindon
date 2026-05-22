@@ -89,6 +89,34 @@
                 <textarea name="description" rows="4" class="textarea textarea-bordered rounded-none w-full">{{ old('description', $single->description) }}</textarea>
             </div>
 
+            <div class="form-control w-full p-4 bg-base-200 border border-gray-800">
+                <label class="label pb-0"><span class="label-text uppercase font-bold text-xs">Manajemen
+                        Lirik</span></label>
+                <p class="text-xs text-gray-500 mb-3">Kelola lirik untuk lagu ini secara interaktif.</p>
+                <div>
+                    @if ($single->lyrics)
+                        <a href="{{ route('admin.lyrics.edit', $single->lyrics->id) }}"
+                            class="btn btn-sm btn-outline btn-primary rounded-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                            </svg>
+                            Edit Lirik Lagu Ini
+                        </a>
+                    @else
+                        <a href="{{ route('admin.lyrics.create') }}?single_id={{ $single->id }}"
+                            class="btn btn-sm btn-outline btn-secondary rounded-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Tambahkan Lirik Baru
+                        </a>
+                    @endif
+                </div>
+            </div>
+
             <div class="flex items-center gap-4 pt-6 border-t border-gray-800">
                 <button type="submit" class="btn btn-primary rounded-none px-12 text-white">Update</button>
                 <a href="{{ route('admin.dashboard') }}"

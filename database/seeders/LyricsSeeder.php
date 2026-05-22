@@ -15,30 +15,24 @@ class LyricsSeeder extends Seeder
      */
     public function run(): void
     {
-        $singles = Singles::all();
+        $single = Singles::first();
+
+        if (!$single) {
+            $this->command->info('No singles found. Please add a single first.');
+            return;
+        }
 
         $lyrics = [
             [
                 'id' => Str::uuid()->toString(),
-                'lyrics_text' => 'Lyrics for Single 1 lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                'single_id' => $singles->where('title', 'Single Satu')->first()->id,
-                'slug' => 'single-1-lyrics',
-            ],
-            [
-                'id' => Str::uuid()->toString(),
-                'lyrics_text' => 'Lyrics for Single 2 dloelorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                'single_id' => $singles->where('title', 'Single Dua')->first()->id,
-                'slug' => 'single-2-lyrics',
-            ],
-            [
-                'id' => Str::uuid()->toString(),
-                'lyrics_text' => 'Lyrics for Single 3 wafecdsdloelorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                'single_id' => $singles->where('title', 'Single Tiga')->first()->id,
-                'slug' => 'single-3-lyrics',
+                'lyrics_text' => "Kulihat awan menutupi pelangi\nSeakan memudar dan tak kembali\n\nNamun ku tahu esok akan berganti\nSinar mentari kan memeluk bumi\n\nReff:\nTerbanglah tinggi menggapai angan\nJangan menyerah pada kenyataan\nDi ujung jalan yang penuh rintangan\nAda harapan yang menunggumu datang.",
+                'single_id' => $single->id,
+                'slug' => Str::slug($single->title . '-dummy-lyrics'),
             ],
         ];
 
         foreach ($lyrics as $lyric) {
+            // we use create to trigger the HasUuids model trait
             Lyrics::create($lyric);
         }
     }
