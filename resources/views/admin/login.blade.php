@@ -4,7 +4,7 @@
     </x-slot:title>
     <div class="flex justify-center items-center min-h-screen text-white">
         <div class="w-full max-w-md bg-base-content rounded-lg shadow-lg p-6">
-            <img class="" src="{{ asset('logo-swindon.png') }}" alt="logo-swindon">
+            <img class="" src="{{ 'logo-swindon.png' }}" alt="logo-swindon">
             <h2 class="text-2xl font-bold  my-6  text-center">Login Page</h2>
 
             @if ($errors->any())

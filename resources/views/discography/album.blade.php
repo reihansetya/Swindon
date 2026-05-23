@@ -8,13 +8,20 @@
         <h1 class="text-3xl pb-2 font-bold">{{ $album->title }}</h1>
         <div class="flex md:flex-row flex-col justify-between">
             <div class="md:w-col-5">
-                <img class="object-cover w-full" src="{{ asset('images/album1.png') }}" alt="">
-                <div class="mt-5">
-                    @if ($album->spotify_url != null)
-                        <a href="{{ $album->spotify_url }}" class="text-md">Spotify</a>
-                    @endif
-                </div>
-
+                @if($album->images && Storage::disk('public')->exists($album->images->image_path))
+                    <img class="object-cover w-full" src="{{ Storage::url($album->images->image_path) }}" alt="{{ $album->title }}">
+                @else
+                    <img class="object-cover w-full" src="{{ asset('images/album1.png') }}" alt="{{ $album->title }}">
+                @endif
+                @if ($album->spotify_url != null)
+                    <div class="mt-8">
+                        <a href="{{ $album->spotify_url }}" target="_blank"
+                           class="inline-flex items-center gap-3 px-6 py-3 border-2 border-white hover:bg-white hover:text-black transition-all duration-300">
+                            <i class="fab fa-spotify text-2xl"></i>
+                            <span class="font-semibold text-lg">Spotify</span>
+                        </a>
+                    </div>
+                @endif
             </div>
             <div class="md:w-col-6 items-end flex flex-col justify-between">
                 <div class="self-start">

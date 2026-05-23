@@ -1,29 +1,3 @@
-<?php
-$data = [
-    [
-        'img' => 'images/footage-3.jpg',
-        'title' => 'Biography',
-    ],
-    [
-        'img' => 'images/album1.png',
-        'title' => 'Albums',
-    ],
-    [
-        'img' => 'images/footage-1.jpg',
-        'title' => 'Singles',
-    ],
-    [
-        'img' => 'images/album1.png',
-        'title' => 'Footage',
-        'href' => '/footage',
-    ],
-    [
-        'img' => 'images/album1.png',
-        'title' => 'Footage',
-        'href' => '/footage',
-    ],
-]; ?>
-
 <x-layout>
     <x-slot:title>
         Discography
@@ -61,9 +35,11 @@ $data = [
                 <a href="{{ $d->category->name == 'Album' ? route('album.show', $d->slug) : route('single.show', $d->slug) }}"
                     class="card mx-auto w-fit card-compact bg-base-100 ">
                     <figure class=" md:h-auto lg:max-w-[22rem] overflow-hidden">
-                        {{-- Mengambil gambar secara dinamis dari item, bukan hardcode --}}
-                        <img class="border-2" src="{{ $data[2]['img'] }}" alt="Shoes" />
-
+                        @if($d->images && Storage::disk('public')->exists($d->images->image_path))
+                            <img class="border-2" src="{{ asset('storage/' . $d->images->image_path) }}" alt="{{ $d->title }}" />
+                        @else
+                            <img class="border-2" src="{{ asset('images/album1.png') }}" alt="{{ $d->title }}" />
+                        @endif
                     </figure>
                     <div class="py-5">
                         <h2 class="card-title">{{ $d->title }}</h2>

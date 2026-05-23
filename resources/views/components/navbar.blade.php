@@ -1,6 +1,7 @@
 @props(['home' => request()->is('/')])
 @props(['biography' => request()->is('biography')])
 @props(['admin' => request()->is('admin') || request()->is('admin/*')])
+@props(['singleOrAlbum' => request()->is('single/*') || request()->is('album/*')])
 
 <section class="text-center relative z-10 {{ $admin ? 'hidden' : 'block' }}">
     <div class="{{ $home ? 'hidden' : 'block' }} py-3">
@@ -10,7 +11,7 @@
         <x-nav-link href="/discography" :navbar="true" :active="request()->is('discography')">Discography</x-nav-link>
         <x-nav-link href="/footage" :navbar="true" :active="request()->is('footage')">Footage</x-nav-link>
     </div>
-    <a href="#" class="md:w-[50%] w-[80%] inline-block {{ $biography ? 'hidden' : 'block' }}">
+    <a href="#" class="md:w-[50%] w-[80%] inline-block {{ $biography || $singleOrAlbum ? 'hidden' : 'block' }}">
         <img class="" src="{{ asset('logo-swindon.png') }}" alt="logo-swindon">
     </a>
 </section>
@@ -25,9 +26,10 @@
                 </svg>
             </div>
             <ul tabindex="0"
-                class="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow ">
+                class="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow [&_a:focus]:bg-transparent [&_a.active]:bg-transparent [&_li>a:active]:bg-transparent">
                 <li><a href={{ route('admin.albums.create') }}>Create Album</a></li>
                 <li><a href="{{ route('admin.singles.create') }}">Create Single</a></li>
+                <li><a href="{{ route('admin.import') }}"><i class="fa-solid fa-file-import"></i> Import Data</a></li>
                 <li><a href="{{ route('admin.pictures.insert') }}">Insert Picture</a></li>
             </ul>
         </div>
@@ -36,9 +38,10 @@
         </a>
     </div>
     <div class="navbar-center text-white hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
+        <ul class="menu menu-horizontal px-1 [&_a]:text-white [&_a:hover]:text-gray-300 [&_a:focus]:bg-transparent [&_a:focus]:text-white [&_a.active]:bg-transparent [&_a.active]:text-white [&_li>a:active]:bg-transparent [&_li>a:active]:text-white">
             <li><a href={{ route('admin.albums.create') }}>Create Album</a></li>
             <li><a href="{{ route('admin.singles.create') }}">Create Single</a></li>
+            <li><a href="{{ route('admin.import') }}"><i class="fa-solid fa-file-import"></i> Import Data</a></li>
             <li><a href="{{ route('admin.pictures.insert') }}">Insert Picture</a></li>
 
         </ul>

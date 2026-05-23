@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Albums;
-use App\Http\Requests\StoreAlbumsRequest;
-use App\Http\Requests\UpdateAlbumsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Images;
+use App\Services\ImageService;
 
 class AlbumsController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -79,31 +84,25 @@ class AlbumsController extends Controller
             'recorded_at' => $request->recorded_at
         ]);
 
-        // Return response sukses
-        // return response()->json(
-        //     [
-        //         'success' => true,
-        //         'data' => $album,
-        //     ],
-        //     201,
-        // );
-
+        // Proses upload gambar menggunakan ImageService
         if ($request->hasFile('image')) {
-            // 1. Simpan file gambar ke storage/app/public/images
-            $imagePath = $request->file('image')->store('images', 'public');
+            try {
+                $this->imageService->storeImage(
+                    $request->file('image'),
+                    $album->id,
+                    'album'
+                );
+            } catch (\Exception $e) {
+                // Jika penyimpanan gambar gagal, hapus album yang baru dibuat
+                $album->delete();
 
-            // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
-            // Ini akan membuat gambar baru yg terhubung dgn $album->id
-            Images::updateOrCreate(
-                ['album_id' => $album->id], // Kunci pencarian
-                [
-                    'image_path' => $imagePath,
-                    'type' => 'album', // Tipe 'album'
-                ]
-            );
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Gagal mengunggah gambar. Silakan coba lagi.');
+            }
         }
 
-        //retrun ke halaman sebelumnya
+        // Return ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Album berhasil ditambahkan!');
     }
 
@@ -130,12 +129,14 @@ class AlbumsController extends Controller
     {
         $album = Albums::findOrFail($id);
 
+        // Validasi input termasuk gambar (opsional saat update)
         $request->validate([
             'title' => 'required',
             'release_date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,svg'
         ]);
 
+        // Perbarui data album
         $album->update([
             'title' => $request->title,
             'slug' => Str::slug($request->title),
@@ -145,18 +146,19 @@ class AlbumsController extends Controller
             'recorded_at' => $request->recorded_at,
         ]);
 
-        // Logika Update Gambar
+        // Proses upload gambar baru menggunakan ImageService (otomatis menghapus gambar lama)
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-
-            // Update atau buat data baru di tabel images
-            Images::updateOrCreate(
-                ['album_id' => $album->id],
-                [
-                    'image_path' => $imagePath,
-                    'type' => 'album'
-                ]
-            );
+            try {
+                $this->imageService->storeImage(
+                    $request->file('image'),
+                    $album->id,
+                    'album'
+                );
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Gagal mengunggah gambar: ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('admin.dashboard')->with('success', 'Album updated successfully');

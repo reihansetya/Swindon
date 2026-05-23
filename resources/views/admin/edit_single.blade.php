@@ -65,6 +65,12 @@
                 </div>
 
                 <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Spotify URL</span></label>
+                    <input type="url" name="spotify_url" value="{{ old('spotify_url', $single->spotify_url) }}"
+                        class="input input-bordered rounded-none w-full" placeholder="https://open.spotify.com/track/...">
+                </div>
+
+                <div class="form-control w-full">
                     <label class="label"><span class="label-text uppercase font-bold text-xs">YouTube Embed
                             Code</span></label>
                     <input type="text" name="youtube_embed"
@@ -74,19 +80,41 @@
             </div>
 
             <div class="form-control w-full">
-                <label class="label"><span class="label-text uppercase font-bold text-xs">Cover Image</span></label>
-                <div class="flex items-center gap-4">
-                    @if ($single->images && $single->images->image_path)
-                        <img src="{{ asset('storage/' . $single->images->image_path) }}"
-                            class="w-20 h-20 object-cover border border-gray-800 grayscale">
-                    @endif
-                    <input type="file" name="image" class="file-input file-input-bordered rounded-none w-full">
-                </div>
+                <label class="label"><span class="label-text uppercase font-bold text-xs">Gambar Cover</span></label>
+                @if ($single->images)
+                    <div class="mb-2">
+                        <img src="{{ Storage::url($single->images->image_path) }}"
+                            alt="Current cover"
+                            class="w-32 h-32 object-cover rounded border border-gray-800">
+                    </div>
+                @endif
+                <input type="file" name="image"
+                    accept="image/jpeg,image/png,image/jpg,image/svg+xml"
+                    class="file-input file-input-bordered w-full">
+                @error('image')
+                    <label class="label">
+                        <span class="label-text-alt text-error">{{ $message }}</span>
+                    </label>
+                @enderror
             </div>
 
             <div class="form-control w-full">
                 <label class="label"><span class="label-text uppercase font-bold text-xs">Deskripsi</span></label>
                 <textarea name="description" rows="4" class="textarea textarea-bordered rounded-none w-full">{{ old('description', $single->description) }}</textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Produced By</span></label>
+                    <input type="text" name="produced_by" value="{{ old('produced_by', $single->produced_by) }}"
+                        class="input input-bordered rounded-none w-full" placeholder="Nama produser">
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text uppercase font-bold text-xs">Recorded At</span></label>
+                    <input type="text" name="recorded_at" value="{{ old('recorded_at', $single->recorded_at) }}"
+                        class="input input-bordered rounded-none w-full" placeholder="Nama studio">
+                </div>
             </div>
 
             <div class="form-control w-full p-4 bg-base-200 border border-gray-800">

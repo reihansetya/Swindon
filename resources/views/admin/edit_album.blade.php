@@ -50,14 +50,22 @@
             </div>
 
             <div class="form-control w-full">
-                <label class="label"><span class="label-text uppercase font-bold text-xs">Cover Image</span></label>
-                <div class="flex items-center gap-4">
-                    @if ($album->images && $album->images->image_path)
-                        <img src="{{ asset('storage/' . $album->images->image_path) }}"
-                            class="w-20 h-20 object-cover border border-gray-800 grayscale">
-                    @endif
-                    <input type="file" name="image" class="file-input file-input-bordered rounded-none w-full">
-                </div>
+                <label class="label"><span class="label-text uppercase font-bold text-xs">Gambar Cover</span></label>
+                @if ($album->images)
+                    <div class="mb-2">
+                        <img src="{{ Storage::url($album->images->image_path) }}"
+                            alt="Current cover"
+                            class="w-32 h-32 object-cover rounded border border-gray-800">
+                    </div>
+                @endif
+                <input type="file" name="image"
+                    accept="image/jpeg,image/png,image/jpg,image/svg+xml"
+                    class="file-input file-input-bordered w-full">
+                @error('image')
+                    <label class="label">
+                        <span class="label-text-alt text-error">{{ $message }}</span>
+                    </label>
+                @enderror
             </div>
 
             <div class="form-control w-full">

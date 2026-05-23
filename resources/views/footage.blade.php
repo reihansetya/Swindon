@@ -9,7 +9,7 @@
                 <form method="dialog">
                     <button class="btn bg-black btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">✕</button>
                 </form>
-                <img class="w-full h-auto object-cover" src="{{ asset('storage/' . $image['image_path']) }}" />
+                <img class="w-full h-auto object-cover" src="{{ 'storage/' . $image['image_path'] }}" />
             </div>
             <form method="dialog" class="modal-backdrop">
                 <button>close</button>
@@ -26,7 +26,7 @@
                         <div class="cursor-pointer"
                             onclick="document.getElementById('modal_{{ $image['id'] }}').showModal()">
                             <img class="h-auto max-w-full rounded-lg hover:opacity-80 transition-all"
-                                src="{{ asset('storage/' . $image['image_path']) }}">
+                                src="{{ 'storage/' . $image['image_path'] }}">
                         </div>
                     @endif
                 @endforeach

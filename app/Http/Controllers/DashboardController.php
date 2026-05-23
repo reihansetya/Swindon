@@ -16,6 +16,10 @@ class DashboardController extends Controller
         $singleWithImage = Singles::with('images')->get();
         // Fetch all lyrics with their parent single
         $lyricsList = \App\Models\Lyrics::with('single')->get();
+        // Fetch general images (footage) with pagination
+        $footageImages = Images::where('type', 'general')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         // Merge collections if all combined data is needed
         $albumsAndSingles = $albumWithImage->merge($singleWithImage);
@@ -25,7 +29,7 @@ class DashboardController extends Controller
         $albums = $albumWithImage;
         $singles = $singleWithImage;
 
-        return view('admin.dashboard', compact('albums', 'singles', 'albumsAndSingles', 'albumWithImage', 'singleWithImage', 'lyricsList'));
+        return view('admin.dashboard', compact('albums', 'singles', 'albumsAndSingles', 'albumWithImage', 'singleWithImage', 'lyricsList', 'footageImages'));
     }
 
     public function showAllData() {}

@@ -61,9 +61,16 @@
             </div>
 
             <div class="form-control w-full">
-                <label class="label"><span class="label-text uppercase font-bold text-xs">Cover Image</span></label>
-                <input type="file" name="image" class="file-input file-input-bordered rounded-none w-full"
+                <label class="label"><span class="label-text uppercase font-bold text-xs">Gambar Cover</span></label>
+                <input type="file" name="image"
+                    accept="image/jpeg,image/png,image/jpg,image/svg+xml"
+                    class="file-input file-input-bordered w-full"
                     required>
+                @error('image')
+                    <label class="label">
+                        <span class="label-text-alt text-error">{{ $message }}</span>
+                    </label>
+                @enderror
             </div>
 
             <div class="form-control w-full">

@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Singles;
-use App\Http\Requests\StoreSinglesRequest;
-use App\Http\Requests\UpdateSinglesRequest;
 use App\Models\Albums;
 use App\Models\Category;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Images;
 
 class SinglesController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,13 +36,10 @@ class SinglesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan single baru ke database.
      */
     public function store(Request $request)
     {
-        // dd($request);
-
-        //
         // Validasi input
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
@@ -83,28 +85,28 @@ class SinglesController extends Controller
             'recorded_at' => $request->recorded_at,
         ]);
 
-        // === 3. TAMBAHKAN LOGIKA UPLOAD GAMBAR === //
+        // === UPLOAD GAMBAR MENGGUNAKAN ImageService === //
         if ($request->hasFile('image')) {
-            // 1. Simpan file gambar ke storage/app/public/images
-            $imagePath = $request->file('image')->store('images', 'public');
+            try {
+                // Gunakan ImageService untuk menyimpan gambar
+                $this->imageService->storeImage(
+                    $request->file('image'),
+                    $single->id,
+                    'single',
+                    $albumId
+                );
+            } catch (\Exception $e) {
+                // Jika gagal upload gambar, hapus single yang baru dibuat
+                $single->delete();
 
-            // 2. Gunakan updateOrCreate untuk menyimpan ke tabel 'images'
-            // Ini akan membuat gambar baru yg terhubung dgn $single->id
-            Images::updateOrCreate(
-                ['single_id' => $single->id], // Kunci pencarian
-                [
-                    'image_path' => $imagePath,
-                    'type' => 'single', // Tipe 'single'
-                    'album_id' => $albumId ? $albumId : null // Pastikan album_id null
-                ]
-            );
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Gagal mengunggah gambar: ' . $e->getMessage());
+            }
         }
 
-        //Return response sukses
+        // Return response sukses
         return redirect()->back()->with('success', 'Single berhasil ditambahkan!');
-
-        //retrun ke halaman sebelumnya
-        // return redirect()->back()->with('success', 'Album berhasil ditambahkan!');
     }
 
     /**
@@ -133,19 +135,22 @@ class SinglesController extends Controller
         return view('admin.edit_single', compact('single', 'albums', 'categories'));
     }
 
+    /**
+     * Memperbarui data single yang sudah ada.
+     */
     public function update(Request $request, $id)
     {
         $single = Singles::findOrFail($id);
 
-        // 1. Validasi (release_date dibuat nullable agar sinkron dengan database)
+        // Validasi input (release_date dibuat nullable agar sinkron dengan database)
         $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required',
             'release_date' => 'nullable|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg', // Tambahkan validasi gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg',
         ]);
 
-        // 2. Update data teks
+        // Update data teks single
         $single->update([
             'title' => $request->title,
             'slug' => Str::slug($request->title),
@@ -160,19 +165,21 @@ class SinglesController extends Controller
             'recorded_at' => $request->recorded_at,
         ]);
 
-        // 3. Logika Update Gambar (Jika ada file baru yang diupload)
+        // === UPLOAD GAMBAR MENGGUNAKAN ImageService (menggantikan gambar lama secara otomatis) === //
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-
-            // Gunakan updateOrCreate pada relasi images
-            $newImage = Images::updateOrCreate(
-                ['single_id' => $single->id],
-                [
-                    'image_path' => $imagePath,
-                    'type' => 'single',
-                    'album_id' => $request->album_id
-                ]
-            );
+            try {
+                // Gunakan ImageService untuk menyimpan gambar (otomatis hapus gambar lama)
+                $this->imageService->storeImage(
+                    $request->file('image'),
+                    $single->id,
+                    'single',
+                    $request->album_id
+                );
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Gagal mengunggah gambar: ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('admin.dashboard')->with('success', 'Single updated successfully');

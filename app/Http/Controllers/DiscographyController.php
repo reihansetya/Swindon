@@ -30,7 +30,7 @@ class DiscographyController extends Controller
 
     public function albumShow($slug)
     {
-        $album = Albums::where('slug', $slug)->firstOrFail();
+        $album = Albums::with('images')->where('slug', $slug)->firstOrFail();
         $release = date('Y', strtotime($album->release_date));
         $albumWithSingle = $album->singles()->get();
 
@@ -39,9 +39,11 @@ class DiscographyController extends Controller
 
     public function singleShow($slug)
     {
-        $single = Singles::where('slug', $slug)->firstOrFail();
+        $single = Singles::where('slug', $slug)
+            ->with(['lyrics', 'albums', 'images']) // Include album dan images relation
+            ->firstOrFail();
         $release = date('Y', strtotime($single->release_date));
-        $lyricsWithSingle = $single->with('lyrics')->first();
+        $lyricsWithSingle = $single;
 
         return view('discography.single', compact('single', 'release', 'lyricsWithSingle'));
     }

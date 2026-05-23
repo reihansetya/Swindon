@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Albums;
-use App\Models\Category;
-use App\Models\Singles;
 use Illuminate\Http\Request;
 use App\Models\Images;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator; // Pastikan Validator di-import
+use Illuminate\Support\Facades\Storage;
 
 class PictureController extends Controller
 {
@@ -20,15 +17,14 @@ class PictureController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            // 'category' => 'required|in:Album,Single,General',
             'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if (!$req->hasFile('image')) {
             return back()->withErrors(['image' => 'No image file was uploaded.']);
         }
+
         // Logika One-to-Many untuk General (Footage)
-        // Di sini, kita biarkan loop karena 'General' boleh banyak
         foreach ($req->file('image') as $file) {
             $imagePath = $file->store('images', 'public');
             Images::create([
@@ -40,7 +36,24 @@ class PictureController extends Controller
             ]);
         }
 
-
         return redirect()->back()->with('success', 'Image uploaded successfully.');
+    }
+
+    /**
+     * Menghapus gambar dari storage dan database.
+     */
+    public function destroy($id)
+    {
+        $image = Images::findOrFail($id);
+
+        // Hapus file fisik dari storage
+        if (Storage::disk('public')->exists($image->image_path)) {
+            Storage::disk('public')->delete($image->image_path);
+        }
+
+        // Hapus record dari database
+        $image->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Gambar berhasil dihapus.');
     }
 }

@@ -18,35 +18,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $albums = Albums::factory(5)->create();
+        // Seed categories first
+        $this->call([
+            CategorySeeder::class,
+        ]);
 
-        // Singles::factory(10)
-        //     ->create()
-        //     ->each(function ($single) use ($albums) {
-        //         $single->album_id = $albums->random()->id;
-        //         $single->save();
+        // Create admin user
+        $this->createAdminUser();
 
-        //         $single->lyrics()->saveMany(Lyrics::factory(3)->make(['single_id' => $single->id]));
-        //         $single->images()->saveMany(Images::factory(2)->make(['single_id' => $single->id, 'type' => 'single']));
-        //     });
-
-        // $albums->each(function ($album) {
-        //     $album->images()->saveMany(Images::factory(2)->make(['album_id' => $album->id, 'type' => 'album']));
-        // });
-
-        // Images::factory(10)->create(['type' => 'general']);
-
-        // $this->call([CategorySeeder::class, AlbumsSeeder::class, SinglesSeeder::class]);
-
-        // $this->user();
+        // Seed realistic Swindon band data
+        $this->call([
+            SwindonDataSeeder::class,
+        ]);
     }
 
-    // public function user()
-    // {
-    //     User::create([
-    //         'name' => 'Admin',
-    //         'email' => 'admin@gmail.com',
-    //         'password' => Hash::make('admin'),
-    //     ]);
-    // }
+    private function createAdminUser()
+    {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@swindon.com',
+            'password' => Hash::make('admin'),
+        ]);
+
+        $this->command->info('✓ Admin user created (email: admin@swindon.com, password: admin123)');
+    }
 }

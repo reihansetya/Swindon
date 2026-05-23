@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscographyController;
 use App\Http\Controllers\FootageController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\SinglesController;
 use App\Models\Albums;
@@ -94,6 +95,7 @@ Route::get('admin/pictures/create', [PictureController::class, 'index'])
     ->middleware('auth');
 
 Route::post('/admin/pictures/store', [PictureController::class, 'store'])->name('admin.pictures.store');
+Route::delete('/admin/pictures/{id}', [PictureController::class, 'destroy'])->name('admin.pictures.destroy')->middleware('auth');
 
 // Lyrics
 Route::get('/admin/lyrics/create', [App\Http\Controllers\LyricsController::class, 'create'])
@@ -114,4 +116,17 @@ Route::put('/admin/lyrics/{id}', [App\Http\Controllers\LyricsController::class, 
 
 Route::delete('/admin/lyrics/{id}', [App\Http\Controllers\LyricsController::class, 'destroy'])
     ->name('admin.lyrics.destroy')
+    ->middleware('auth');
+
+// Import
+Route::get('/admin/import', [ImportController::class, 'showImportPage'])
+    ->name('admin.import')
+    ->middleware('auth');
+
+Route::get('/admin/import/template/{type}', [ImportController::class, 'downloadTemplate'])
+    ->name('admin.import.template')
+    ->middleware('auth');
+
+Route::post('/admin/import/{type}', [ImportController::class, 'import'])
+    ->name('admin.import.process')
     ->middleware('auth');
